@@ -42,13 +42,18 @@ public class Hacker : MonoBehaviour
         Terminal.WriteLine("Type 2 for San Francisco EMT services"); 
         Terminal.WriteLine("Type 3 for the EPA Database"); 
         Terminal.WriteLine(""); 
+        Terminal.WriteLine("Type exit to leave"); 
         Terminal.WriteLine("Enter your selection:"); 
     }
 
     private void OnUserInput(string input)
     {
         Debug.Log("User typed: " + input);
-        if (input == "menu")
+        if (input == "exit" || input == "quit" || input == "close" || input == "leave")
+        {
+            Quit();
+        }
+        else if (input == "menu")
         {
             ShowMainMenu();
         }
@@ -122,5 +127,15 @@ public class Hacker : MonoBehaviour
         Terminal.ClearScreen();
         Terminal.WriteLine("You are in! Congratulations!");
         Terminal.WriteLine("Press Enter to return to the main menu");
+    }
+    private void Quit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_WEBPLAYER
+         Application.OpenURL(webplayerQuitURL);
+#else
+         Application.Quit();
+#endif
     }
 }
